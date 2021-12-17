@@ -1,0 +1,165 @@
+<template>
+  <header>
+            <nav>
+                <div class="mobile_nav mobile_nav__hide">
+                    <div class="mobile_nav__collapse mobile_nav__collapse-hide" id="close_navbar">
+                        <i class="bi bi-arrow-left-short"></i>
+                    </div>
+                    <div class="scroll_container">
+                        <div class="mobile_nav-logo">
+                            <div class="icon_container">
+                                <router-link to="/"> <img :src="`/frontend//frontend/assets/img/icon.svg`" alt=""></router-link>
+
+                            </div>
+                            <span>7 Star</span>
+                        </div>
+                        <ul class="menu">
+                            <li><a href=""><i class="bi bi-house-fill"></i> Home</a></li>
+                            <li><a href="shop_page.html"><i class="bi bi-arrows-fullscreen"></i> Explore</a></li>
+                            <li class="collapsible"><a href="#"><i class="bi bi-grid-1x2-fill"></i> Category
+                                <ul class="collapsible_menu hide">
+                                    <li><a href="restaurant_room.html">Halal Foods</a></li>
+                                    <li><a href="">Desserts</a></li>
+                                    <li><a href="">Chicken</a></li>
+                                    <li><a href="">Pizza</a></li>
+                                </ul>
+                            </a></li>
+                            <li><a href=""><i class="bi bi-geo-fill"></i> Track Order</a></li>
+                            <li><a href=""><i class="bi bi-question-circle-fill"></i> Help</a></li>
+                            <li><a href=""><i class="bi bi-person-fill"></i> Sign In</a></li>
+
+                        </ul>
+                    </div>
+                </div>
+                <div class="primary_nav">
+                     <router-link to="/">
+                    <a class="link_standard">
+                        <div class="primary_nav-logo">
+                            <div class="icon_container">
+                                <img :src="`/frontend//frontend/assets/img/icon.svg`" alt="">
+                            </div>
+                            <span style="color:black">7 Star</span>
+                    </div></a>
+                    </router-link>
+                    <div class="primary_nav-menu">
+                        <i class="bi bi-list text-accent"></i> <span>Menu</span>
+                    </div>
+                    <div class="primary_nav-search">
+                        <i class="bi bi-search search-icon"></i>
+                        <input type="text" name="search" placeholder="Search for food you want..">
+                        <i class="bi bi-x clear-icon"></i>
+                    </div>
+                      <ul class="primary_nav-menu_items">
+                    <li><a href="">Track Order</a></li>
+                    <li><a href="">Help & Contact</a></li>
+                    <li><a href="" class="btn btn-bordered">Sign in</a></li>
+                    <div class="hover_popup has_badge">
+                        <!-- add class badge-none to hide the badge  -->
+                        <div class="badge_top_right">3</div>
+                        <li><a href="cart.html" class="btn btn-3d"><i class="bi bi-cart-fill text-accent"></i> My Cart</a></li>
+                        <div class="popup">
+                            <div class="heading">
+                                <div></div>
+                                <div>
+                                    <p>Item</p>
+                                </div>
+                                <div>
+                                    <p>PRICE</p>
+                                </div>
+                                <div>
+                                    <p>UNIT PRICE</p>
+                                </div>
+                            </div>
+                            <div class="items">
+                                <div class="item">
+                                    <div class="row-1">
+                                        <div class="action">
+                                            <i class="bi bi-x-circle-fill"></i>
+                                        </div>
+                                        <div class="thumbnail" style="background-image: url(/frontend/assets/img/featured_foods/image2.png);"></div>
+                                        <div class="details">
+                                            <p><b>€49.50</b></p>
+                                            <div class="quality_control">
+                                                <button class="btn-rounded btn-gray">-</button><span><b>2</b></span><button class="btn-rounded btn-gray">+</button>
+                                            </div>
+                                        </div>
+                                        <div class="unit_price">
+                                            <p><b>€99</b></p>
+                                        </div>
+                                    </div>
+                                    <div class="row-2">
+                                        <p>Green vegetable and ricotta tart with parmesan crust</p>
+                                    </div>
+                                </div>
+                                <div class="item">
+                                    <div class="row-1">
+                                        <div class="action">
+                                            <i class="bi bi-x-circle-fill"></i>
+                                        </div>
+                                        <div class="thumbnail" style="background-image: url(/frontend/assets/img/featured_foods/image2.png);"></div>
+                                        <div class="details">
+                                            <p><b>€49.50</b></p>
+                                            <div class="quality_control">
+                                                <button class="btn-rounded btn-gray">-</button><span><b>2</b></span><button class="btn-rounded btn-gray">+</button>
+                                            </div>
+                                        </div>
+                                        <div class="unit_price">
+                                            <p><b>€99</b></p>
+                                        </div>
+                                    </div>
+                                    <div class="row-2">
+                                        <p>Green vegetable and ricotta tart with parmesan crust</p>
+                                    </div>
+                                </div>
+                                <div class="item">
+                                    <div class="row-1">
+                                        <div class="action">
+                                            <i class="bi bi-x-circle-fill"></i>
+                                        </div>
+                                        <div class="thumbnail" style="background-image: url(/frontend/assets/img/featured_foods/image2.png);"></div>
+                                        <div class="details">
+                                            <p><b>€49.50</b></p>
+                                            <div class="quality_control">
+                                                <button class="btn-rounded btn-gray">-</button><span><b>2</b></span><button class="btn-rounded btn-gray">+</button>
+                                            </div>
+                                        </div>
+                                        <div class="unit_price">
+                                            <p><b>€99</b></p>
+                                        </div>
+                                    </div>
+                                    <div class="row-2">
+                                        <p>Green vegetable and ricotta tart with parmesan crust</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <li><a href="" class="btn"><i class="bi bi-person-circle text-accent"></i></a></li>
+                </ul>
+                </div>
+                <div class="full-divider"></div>
+                <div class="secondary_nav">
+                    <ul class="menu">
+                        <li v-for="category in getAllCategory" :key="category.id">
+                            <router-link :to="{name:'RestaurantRoom', params:{id:category.id} }">{{ category.name }}</router-link>
+                        </li>
+
+                    </ul>
+                </div>
+                <div class="full-divider"></div>
+            </nav>
+        </header>
+</template>
+<script>
+    export default{
+        mounted(){
+             this.$store.dispatch("allCategoryFromDatabase")
+        },
+        computed: {
+        getAllCategory(){ //final output from here
+            //console.log( this.$store.getters.getCategoryFormGetters);
+            return this.$store.getters.getCategoryFormGetters
+        }
+      },
+    };
+</script>

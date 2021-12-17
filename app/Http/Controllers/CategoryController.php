@@ -40,6 +40,7 @@ class CategoryController extends Controller
     public function store(Request $request)
     {
         //
+
     }
 
     /**
@@ -51,6 +52,8 @@ class CategoryController extends Controller
     public function show($id)
     {
         //
+        $category = category::where('id',$id)->with(['product','product.type:id,name','product.dietary:id,name','product.vendor:id,name'])->first(['id','name','image','created_at']);
+        return response()->json($category,200);
     }
 
     /**

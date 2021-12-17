@@ -12,6 +12,7 @@ const mix = require('laravel-mix');
  */
 
 mix.js('resources/js/app.js', 'public/js').vue()
+    .js(['public/frontend/assets/vendor/glider/glider.js'], 'public/js/app.js')
     .postCss('resources/css/app.css', 'public/css', [
         //
     ])
