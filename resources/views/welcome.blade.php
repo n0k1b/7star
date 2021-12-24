@@ -15,6 +15,7 @@
         <nav-header></nav-header>
 
         <div id="component">
+
             <router-view/>
         </div>
 
@@ -28,8 +29,8 @@
     <script src="{{ asset('frontend/assets/js/style.js') }}"></script>
     <script src="{{ asset('frontend/assets/js/navbar.js') }}"></script>
 
-    <script src="{{ asset('frontend/assets/vendor/glider/glider.js') }}"></script>
-    <script src="{{ asset('frontend/assets/js/custom.js') }}"></script>
+
+    {{-- <script src="{{ asset('frontend/assets/js/custom.js') }}"></script> --}}
 
 
 </body>

@@ -7,7 +7,11 @@ import routes from '../js/router.js'
 import Vuex from 'vuex'
 import storeData from "./store/index"
 import VueLazyImageLoading from 'vue-lazy-image-loading'
+import ScaleLoader from 'vue-spinner/src/PulseLoader.vue'
+import VueGlide from 'vue-glide-js'
+import 'vue-glide-js/dist/vue-glide.css'
 Vue.use(Vuex)
+Vue.use(VueGlide)
 Vue.use(VueLazyImageLoading)
 Vue.use(require('vue-resource'));
 
@@ -31,6 +35,7 @@ Vue.component('popular-categories', require('../component/page/popular-categorie
 Vue.component('restaurant-room', require('../component/page/restaurant-room').default);
 Vue.component('footer-content', require('../component/footer').default);
 Vue.component('pagination', require('laravel-vue-pagination'));
+Vue.component('scale-loader', ScaleLoader);
 const app = new Vue({
     el: '#app',
     router,

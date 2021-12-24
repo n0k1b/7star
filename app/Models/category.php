@@ -14,4 +14,5 @@ class category extends Model
     {
         return $this->hasMany('App\Models\product','category_id','id')->where('status',1);
     }
+
 }

@@ -5,27 +5,26 @@
                 <a href="shop_page.html" class="btn btn-bordered">Explore All</a>
             </div>
             <div class="h_list-5 mt-subsection">
-                <div class="item centered-flex">
-                    <img src="frontend/assets/img/popular_categories/Ellipse 4.png" alt="" height="220px" width="220px">
-                    <p>Halal</p>
+
+                <div class="item centered-flex" v-for="category in getPopularCategory"  :key="category.id">
+                    <img :src="category.image" alt="" height="220px" width="220px">
+                    <p>{{category.name }}</p>
                 </div>
-                <div class="item centered-flex">
-                    <img src="frontend/assets/img/popular_categories/Ellipse 5.png" alt="" height="220px" width="220px">
-                    <p>Vegetable</p>
-                </div>
-                <div class="item centered-flex">
-                    <img src="frontend/assets/img/popular_categories/Ellipse 6.png" alt="" height="220px" width="220px">
-                    <p>Rice</p>
-                </div>
-                <div class="item centered-flex">
-                    <img src="frontend/assets/img/popular_categories/Ellipse 7.png" alt="" height="220px" width="220px">
-                    <p>Chicken</p>
-                </div>
-                <div class="item centered-flex">
-                    <img src="frontend/assets/img/popular_categories/Ellipse 8.png" alt="" height="220px" width="220px">
-                    <p>Burger</p>
-                </div>
+
             </div>
         </div>
 
 </template>
+<script>
+export default{
+
+        computed: {
+
+        getPopularCategory(){ //final output from here
+              return this.$store.getters.getCategoryFormGetters.filter(x=>x.popular_status==1)
+
+        }
+
+      },
+    };
+</script>

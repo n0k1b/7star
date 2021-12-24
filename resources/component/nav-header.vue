@@ -15,7 +15,7 @@
                         </div>
                         <ul class="menu">
                             <li><a href=""><i class="bi bi-house-fill"></i> Home</a></li>
-                            <li><a href="shop_page.html"><i class="bi bi-arrows-fullscreen"></i> Explore</a></li>
+                            <li><a href=""><i class="bi bi-arrows-fullscreen"></i> Explore</a></li>
                             <li class="collapsible"><a href="#"><i class="bi bi-grid-1x2-fill"></i> Category
                                 <ul class="collapsible_menu hide">
                                     <li><a href="restaurant_room.html">Halal Foods</a></li>
@@ -55,10 +55,10 @@
                     <li><a href="" class="btn btn-bordered">Sign in</a></li>
                     <div class="hover_popup has_badge">
                         <!-- add class badge-none to hide the badge  -->
-                        <div class="badge_top_right">3</div>
-                        <li><a href="cart.html" class="btn btn-3d"><i class="bi bi-cart-fill text-accent"></i> My Cart</a></li>
+                        <div class="badge_top_right">{{ getCartSize }}</div>
+                        <li><a href="#" class="btn btn-3d"><i class="bi bi-cart-fill text-accent"></i> My Cart</a></li>
                         <div class="popup">
-                            <div class="heading">
+                            <div class="heading-cart">
                                 <div></div>
                                 <div>
                                     <p>Item</p>
@@ -71,67 +71,32 @@
                                 </div>
                             </div>
                             <div class="items">
-                                <div class="item">
+                                <div class="item" v-for="cart in getCart" :key="cart.id">
                                     <div class="row-1">
                                         <div class="action">
                                             <i class="bi bi-x-circle-fill"></i>
                                         </div>
-                                        <div class="thumbnail" style="background-image: url(/frontend/assets/img/featured_foods/image2.png);"></div>
+                                        <div class="thumbnail">
+                                             <img height="84px" loading="lazy" style="width:84px"  :src="'/'+cart.image">
+                                        </div>
                                         <div class="details">
-                                            <p><b>€49.50</b></p>
+                                            <p><b>€{{ cart.price }}</b></p>
                                             <div class="quality_control">
-                                                <button class="btn-rounded btn-gray">-</button><span><b>2</b></span><button class="btn-rounded btn-gray">+</button>
+                                                <button class="btn-rounded btn-gray">-</button><span><b>{{ cart.quantity }}</b></span><button class="btn-rounded btn-gray">+</button>
                                             </div>
                                         </div>
                                         <div class="unit_price">
-                                            <p><b>€99</b></p>
+                                            <p><b>€{{ cart.price*cart.quantity }}</b></p>
                                         </div>
                                     </div>
                                     <div class="row-2">
-                                        <p>Green vegetable and ricotta tart with parmesan crust</p>
+                                        <p>{{ cart.name }}</p>
                                     </div>
                                 </div>
-                                <div class="item">
-                                    <div class="row-1">
-                                        <div class="action">
-                                            <i class="bi bi-x-circle-fill"></i>
-                                        </div>
-                                        <div class="thumbnail" style="background-image: url(/frontend/assets/img/featured_foods/image2.png);"></div>
-                                        <div class="details">
-                                            <p><b>€49.50</b></p>
-                                            <div class="quality_control">
-                                                <button class="btn-rounded btn-gray">-</button><span><b>2</b></span><button class="btn-rounded btn-gray">+</button>
-                                            </div>
-                                        </div>
-                                        <div class="unit_price">
-                                            <p><b>€99</b></p>
-                                        </div>
-                                    </div>
-                                    <div class="row-2">
-                                        <p>Green vegetable and ricotta tart with parmesan crust</p>
-                                    </div>
-                                </div>
-                                <div class="item">
-                                    <div class="row-1">
-                                        <div class="action">
-                                            <i class="bi bi-x-circle-fill"></i>
-                                        </div>
-                                        <div class="thumbnail" style="background-image: url(/frontend/assets/img/featured_foods/image2.png);"></div>
-                                        <div class="details">
-                                            <p><b>€49.50</b></p>
-                                            <div class="quality_control">
-                                                <button class="btn-rounded btn-gray">-</button><span><b>2</b></span><button class="btn-rounded btn-gray">+</button>
-                                            </div>
-                                        </div>
-                                        <div class="unit_price">
-                                            <p><b>€99</b></p>
-                                        </div>
-                                    </div>
-                                    <div class="row-2">
-                                        <p>Green vegetable and ricotta tart with parmesan crust</p>
-                                    </div>
-                                </div>
+
+
                             </div>
+
                         </div>
                     </div>
                     <li><a href="" class="btn"><i class="bi bi-person-circle text-accent"></i></a></li>
@@ -152,10 +117,23 @@
 </template>
 <script>
     export default{
+
         mounted(){
              this.$store.dispatch("allCategoryFromDatabase")
         },
         computed: {
+            // ...mapState([
+            //     "cart"
+            // ]),
+         getCart()
+        {
+             return this.$store.getters.getCart
+        },
+
+        getCartSize()
+        {
+             return this.$store.getters.cartSize
+        },
         getAllCategory(){ //final output from here
             //console.log( this.$store.getters.getCategoryFormGetters);
             return this.$store.getters.getCategoryFormGetters

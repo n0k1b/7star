@@ -15,7 +15,7 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $category = category::where('status',1)->with(['product','product.type:id,name','product.dietary:id,name','product.vendor:id,name'])->get(['id','name','image','created_at']);
+        $category = category::where('status',1)->with(['product','product.type:id,name','product.dietary:id,name','product.vendor:id,name'])->paginate(20);
         return response()->json($category,200);
         //
        // return CategoryResource::collection(category::where('status',1)->get());
@@ -52,8 +52,12 @@ class CategoryController extends Controller
     public function show($id)
     {
         //
-        $category = category::where('id',$id)->with(['product','product.type:id,name','product.dietary:id,name','product.vendor:id,name'])->first(['id','name','image','created_at']);
-        return response()->json($category,200);
+
+        $category = category::where('id',$id)->first(['id','name']);
+        $product = $category->product()->with(['type:id,name','dietary:id,name','vendor:id,name'])->paginate(16);
+        // $category->product = $product;
+        //$category = category::where('id',$id)->with(['product','product.type:id,name','product.dietary:id,name','product.vendor:id,name'])->first(['id','name','image','created_at']);
+        return response()->json($product,200);
     }
 
     /**

@@ -12,8 +12,8 @@ new Glider(document.querySelector('.glider'), {
         duration: 0.25
     }
 });
-new Glider(document.querySelector('.hot_sales_slider'), {
-    slidesToShow: 2,
+new Glider(document.querySelector('.hot_sales_slider2'), {
+    slidesToShow: 3,
     dots: '.sales_dots',
     draggable: true,
     arrows: {

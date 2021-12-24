@@ -6,24 +6,30 @@
        <popular-categories></popular-categories>
 
         <!-- Hot Section -->
-        <div class="hot_sales mt-section">
+        <div class="hot_sales mt-section" v-for="section in getSection"  :key="section.id"   >
             <!-- Section Heading -->
             <div class="section_heading">
-                <h2>Hot Sales</h2>
+                <h2>{{ section.name }}</h2>
                 <router-link to="/shop-page"> <a href="#" class="btn btn-bordered">Explore All</a></router-link>
 
             </div>
-            <div class="items mt-subsection glider-contain">
+            <div class="items mt-subsection" >
                 <!-- Slider Container -->
                 <div class="hot_sales_slider">
-                    <div>
-                        <div class="item_card">
-                            <div class="thumbnail"
-                                style="background-image: url(/frontend/assets/img/hot_sales/Image.png)"
-                            >
+                    <vue-glide type="slider"
+
+                 :rewind-duration="0"
+
+                 :per-view="4"
+                 :bullet="true"
+                >
+                <vue-glide-slide  class="block relative py-16 w-full justify-center px-10"  v-for="product in section.product_list.slice(0,15)"  :key="product.id">
+                        <div class="item_card"   >
+                            <div class="thumbnail">
+                                <img :src="'/'+product.product.thumbnail_image" height="224px" loading="lazy" style="width:100%">
                                 <div class="favourite"></div>
                             </div>
-                            <h5>Green vegetable and ricotta tart with parmesan crust</h5>
+                            <h5>{{ product.product.name }}</h5>
                             <div class="overview">
                                 <div class="star_rating_container">
                                     <div class="star_rating" data-rating=1 data-star_count=5 ></div>
@@ -33,158 +39,32 @@
                             </div>
                             <div class="pricing_container">
                                 <div class="price">
-                                    <p class="current_price">$49.50</p>
-                                    <p class="prev_price">$99.50</p>
-                                </div>
-                                <p>Available</p>
-                            </div>
-                            <div class="add_to_cart_button">
-                                <a href="" class="btn btn-primary add_to_cart_button"><i class="bi bi-cart-plus-fill"></i> &nbsp; &nbsp; Add to Cart</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div>
-                        <div class="item_card">
-                            <div class="thumbnail"
-                                style="background-image: url(/frontend/assets/img/hot_sales/Image.png)"
-                            >
-                            <div class="favourite"></div>
-                            </div>
-                            <h5>Green vegetable and ricotta tart with parmesan crust</h5>
-                            <div class="overview">
-                                <div class="star_rating_container">
-                                    <div class="star_rating" data-rating=1 data-star_count=5 ></div>
-                                    <div class="label">4.50</div>
-                                </div>
-                                <p>15 Delivered</p>
-                            </div>
-                            <div class="pricing_container">
-                                <div class="price">
-                                    <p class="current_price">$49.50</p>
-                                    <p class="prev_price">$99.50</p>
-                                </div>
-                                <p>Available</p>
-                            </div>
-                            <div class="add_to_cart_button">
-                                <a href="" class="btn btn-primary add_to_cart_button"><i class="bi bi-cart-plus-fill"></i> &nbsp; &nbsp; Add to Cart</a>
-                            </div>
+                                    <p class="current_price">${{ product.product.price }}</p>
 
-                        </div>
-                    </div>
-                    <div>
-                        <div class="item_card">
-                            <div class="thumbnail"
-                                style="background-image: url(/frontend/assets/img/hot_sales/Image.png)"
-                            >
-                                <div class="favourite"></div>
-                            </div>
-                            <h5>Green vegetable and ricotta tart with parmesan crust</h5>
-                            <div class="overview">
-                                <div class="star_rating_container">
-                                    <div class="star_rating" data-rating=1 data-star_count=5 ></div>
-                                    <div class="label">4.50</div>
-                                </div>
-                                <p>15 Delivered</p>
-                            </div>
-                            <div class="pricing_container">
-                                <div class="price">
-                                    <p class="current_price">$49.50</p>
-                                    <p class="prev_price">$99.50</p>
                                 </div>
                                 <p>Available</p>
                             </div>
                             <div class="add_to_cart_button">
                                 <a href="" class="btn btn-primary add_to_cart_button"><i class="bi bi-cart-plus-fill"></i> &nbsp; &nbsp; Add to Cart</a>
                             </div>
-
                         </div>
-                    </div>
-                    <div>
-                        <div class="item_card">
-                            <div class="thumbnail"
-                                style="background-image: url(/frontend/assets/img/hot_sales/Image.png)"
-                            >
-                                <div class="favourite activated"></div>
-                            </div>
-                            <h5>Green vegetable and ricotta tart with parmesan crust</h5>
-                            <div class="overview">
-                                <div class="star_rating_container">
-                                    <div class="star_rating" data-rating=1 data-star_count=5 ></div>
-                                    <div class="label">4.50</div>
-                                </div>
-                                <p>15 Delivered</p>
-                            </div>
-                            <div class="pricing_container">
-                                <div class="price">
-                                    <p class="current_price">$49.50</p>
-                                    <p class="prev_price">$99.50</p>
-                                </div>
-                                <p>Available</p>
-                            </div>
-                            <div class="add_to_cart_button">
-                                <a href="" class="btn btn-primary add_to_cart_button"><i class="bi bi-cart-plus-fill"></i> &nbsp; &nbsp; Add to Cart</a>
-                            </div>
 
-                        </div>
-                    </div>
-                    <div>
-                        <div class="item_card">
-                            <div class="thumbnail"
-                                style="background-image: url(/frontend/assets/img/hot_sales/Image.png)"
-                            ></div>
-                            <h5>Green vegetable and ricotta tart with parmesan crust</h5>
-                            <div class="overview">
-                                <div class="star_rating_container">
-                                    <div class="star_rating" data-rating=1 data-star_count=5 ></div>
-                                    <div class="label">4.50</div>
-                                </div>
-                                <p>15 Delivered</p>
-                            </div>
-                            <div class="pricing_container">
-                                <div class="price">
-                                    <p class="current_price">$49.50</p>
-                                    <p class="prev_price">$99.50</p>
-                                </div>
-                                <p>Available</p>
-                            </div>
-                            <div class="add_to_cart_button">
-                                <a href="" class="btn btn-primary add_to_cart_button"><i class="bi bi-cart-plus-fill"></i> &nbsp; &nbsp; Add to Cart</a>
-                            </div>
+                </vue-glide-slide>
+                </vue-glide>
 
-                        </div>
-                    </div>
-                    <div>
-                        <div class="item_card">
-                            <div class="thumbnail"
-                                style="background-image: url(/frontend/assets/img/hot_sales/Image.png)"
-                            ></div>
-                            <h5>Green vegetable and ricotta tart with parmesan crust</h5>
-                            <div class="overview">
-                                <div class="star_rating_container">
-                                    <div class="star_rating" data-rating=1 data-star_count=5 ></div>
-                                    <div class="label">4.50</div>
-                                </div>
-                                <p>15 Delivered</p>
-                            </div>
-                            <div class="pricing_container">
-                                <div class="price">
-                                    <p class="current_price">$49.50</p>
-                                    <p class="prev_price">$99.50</p>
-                                </div>
-                                <p>Available</p>
-                            </div>
-                            <div class="add_to_cart_button">
-                                <a href="" class="btn btn-primary add_to_cart_button"><i class="bi bi-cart-plus-fill"></i> &nbsp; &nbsp; Add to Cart</a>
-                            </div>
 
-                        </div>
-                    </div>
+
+
                 </div>
                 <button aria-label="Previous" class="glider-prev sales_next">«</button>
                 <button aria-label="Next" class="glider-next sales_prev">»</button>
                 <div role="tablist" class="sales_dots"></div>
             </div>
         </div>
+
+
+
+
         <div class="featured_foods">
             <div class="section_heading">
                 <h2>Featured Foods</h2>
@@ -319,17 +199,21 @@
     </div>
 </template>
 <script>
+import { Glide, GlideSlide } from 'vue-glide-js'
+
 export default {
-
-    mounted() {
-
-
-
-      let recaptchaScript = document.createElement('script')
-      recaptchaScript.setAttribute('src', '/frontend/assets/js/custom.js')
-      document.head.appendChild(recaptchaScript)
-
+    components: {
+      [Glide.name]: Glide,
+      [GlideSlide.name]: GlideSlide
     },
+      computed: {
+
+        getSection(){ //final output from here
+            return this.$store.getters.getSection
+        }
+      },
+
+
 
   }
 </script>

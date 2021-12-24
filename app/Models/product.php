@@ -23,4 +23,9 @@ class product extends Model
     {
         return $this->belongsTo(product_dietary::class,'dietary_id','id');
     }
+
+    public function category()
+    {
+        return $this->belongsTo(category::class,'category_id','id');
+    }
 }

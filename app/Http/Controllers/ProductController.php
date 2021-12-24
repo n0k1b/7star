@@ -12,10 +12,22 @@ class ProductController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         //
-        $product = product::where('status',1)->get();
+        if($request->category_id)
+        {
+            $product = product::where('status',1)->where('category_id',$request->category_id)->with(['type:id,name','dietary:id,name','vendor:id,name'])->paginate(45);
+        }
+        else
+        {
+
+            $product = product::where('status',1)->with(['type:id,name','dietary:id,name','vendor:id,name'])->paginate(42);
+
+        }
+
+
+
         return response()->json($product,200);
     }
 

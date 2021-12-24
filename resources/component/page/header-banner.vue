@@ -2,10 +2,10 @@
      <div class="hero">
         <div class="glider-contain">
             <div class="glider">
-                <div
-                    style="background-image: url(/frontend/assets/img/hero.png);">
-                    <div class="container slide-1">
-                        <div class="content ">
+                <div :style="{'position':`relative`}" >
+                     <img loading="lazy" :src="getBanner[0]" alt="" :style="{'position':`absolute`}" width="100%">
+                    <div class="container slide-1" :style="{'position':`relative`}" >
+                        <div class="content" :style="{'display':`block`}">
                             <h1>7 Star</h1>
                             <p>Start Food, Start Service</p>
                             <div class="call_to_action">
@@ -15,11 +15,10 @@
                         </div>
                     </div>
                 </div>
-                <div
-                style="background-image: url(/frontend/assets/img/hero2.png);"
-                >
-                    <div class="container slide-2">
-                        <div class="content ">
+                <div :style="{'position':`relative`}">
+                    <img loading="lazy" :src="getBanner[1]" alt="" :style="{'position':`absolute`}" width="100%">
+                    <div class="container slide-2" :style="{'position':`relative`}">
+                        <div class="content" :style="{'display':`block`}" >
                             <h1>Hala Food</h1>
                             <p>Start Food, Start Service</p>
                             <div class="call_to_action">
@@ -38,3 +37,15 @@
 
      </div>
 </template>
+
+<script>
+export default{
+
+        computed: {
+
+        getBanner(){ //final output from here
+            return this.$store.getters.getBanner
+        }
+      },
+    };
+</script>
