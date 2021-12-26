@@ -10,7 +10,7 @@
             <!-- Section Heading -->
             <div class="section_heading">
                 <h2>{{ section.name }}</h2>
-                <router-link to="/shop-page"> <a href="#" class="btn btn-bordered">Explore All</a></router-link>
+                <router-link :to="{name:'SectionExplore', params:{id:section.id} }"> <a href="#" class="btn btn-bordered">Explore All</a></router-link>
 
             </div>
             <div class="items mt-subsection" >
@@ -23,13 +23,17 @@
                  :per-view="4"
                  :bullet="true"
                 >
-                <vue-glide-slide  class="block relative py-16 w-full justify-center px-10"  v-for="product in section.product_list.slice(0,15)"  :key="product.id">
+                <vue-glide-slide  class="block relative py-16 w-full justify-center px-10"  v-for="product in section.product_list.slice(0,20)"  :key="product.id">
+
+
                         <div class="item_card"   >
+                    <router-link :to="{name:'ProductDetails', params:{id:product.product.id} }">
                             <div class="thumbnail">
                                 <img :src="'/'+product.product.thumbnail_image" height="224px" loading="lazy" style="width:100%">
                                 <div class="favourite"></div>
                             </div>
-                            <h5>{{ product.product.name }}</h5>
+
+                             <h5>{{ product.product.name }}</h5>
                             <div class="overview">
                                 <div class="star_rating_container">
                                     <div class="star_rating" data-rating=1 data-star_count=5 ></div>
@@ -44,10 +48,12 @@
                                 </div>
                                 <p>Available</p>
                             </div>
+                    </router-link>
                             <div class="add_to_cart_button">
-                                <a href="" class="btn btn-primary add_to_cart_button"><i class="bi bi-cart-plus-fill"></i> &nbsp; &nbsp; Add to Cart</a>
+                                 <button @click="addToCart(product.product)" class="btn btn-primary add_to_cart_button"><i class="bi bi-cart-plus-fill"></i> &nbsp; &nbsp; Add to Cart</button>
                             </div>
                         </div>
+
 
                 </vue-glide-slide>
                 </vue-glide>
@@ -213,7 +219,32 @@ export default {
         }
       },
 
+       created(){
+           window.scrollTo(0,0);
+        },
 
+     methods:{
+            addToCart(item)
+            {
+                this.$store.commit({
+                type: 'addToCart',
+                id: item.id,
+                name: item.name,
+                price: item.price,
+                image:item.thumbnail_image
+            })
+            },
+
+            getResults(page = 1) {
+            this.$store.dispatch("allCategoryProduct",{id:this.id,page:page})
+            //this.laravelData = this.$store.getters.getCategoryProductFormGetters
+
+            },
+            getLoadingState(){ //final output from here
+
+            return this.$store.getters.getLoadingState;
+        }
+    },
 
   }
 </script>

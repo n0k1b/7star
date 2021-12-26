@@ -8,6 +8,8 @@ export default {
         banner: [],
         popular_category: [],
         section: [],
+        product_details: [],
+        section_product: [],
 
         // count: 0
     },
@@ -44,6 +46,12 @@ export default {
         getSection(state) {
             return state.section
         },
+        getProductDetails(state) {
+            return state.product_details
+        },
+        getSectionProduct(state) {
+            return state.section_product
+        }
 
 
     },
@@ -71,6 +79,30 @@ export default {
                 })
         },
 
+        async sectionProduct(context, data) {
+            var id = data.id
+            var page = data.page
+            this.loading = true
+            await axios.get("/api/sectionProduct/" + id + '?page=' + page)
+
+            .then((response) => {
+
+                context.commit("sectionProduct", response.data) //categories will be run from mutation
+
+            })
+
+            .catch(() => {
+
+                    console.log("Error........")
+
+                })
+                .finally(() => {
+                    context.commit('loadingStatus', false)
+                })
+        },
+
+
+
         async allProduct(context, data) {
             var page = data.page
             this.loading = true
@@ -79,6 +111,27 @@ export default {
             .then((response) => {
 
                 context.commit("allproduct", response.data) //categories will be run from mutation
+
+            })
+
+            .catch(() => {
+
+                    console.log("Error........")
+
+                })
+                .finally(() => {
+                    context.commit('loadingStatus', false)
+                })
+        },
+
+        async product_details(context, data) {
+            var id = data.id
+            this.loading = true
+            await axios.get("/api/product/" + id)
+
+            .then((response) => {
+
+                context.commit("product_details", response.data) //categories will be run from mutation
 
             })
 
@@ -146,9 +199,8 @@ export default {
             // //reduce the quantity in products list by 1
             // product.quantity--;
         },
-        removeFromCart: (state, productId) => {
+        removeFromCart: (state, item) => {
             //find the product in the products list
-            let product = state.products.find((product) => product.id === productId);
             //find the product in the cart list
             let cartProduct = state.cart.find((product) => product.id === productId);
 
@@ -156,15 +208,18 @@ export default {
             //Add back the quantity in products list by 1
             product.quantity++;
         },
-        deleteFromCart: (state, productId) => {
+        deleteFromCart: (state, item) => {
             //find the product in the products list
-            let product = state.products.find((product) => product.id === productId);
-            //find the product index in the cart list
-            let cartProductIndex = state.cart.findIndex((product) => product.id === productId);
-            //srt back the quantity of the product to intial quantity
-            product.quantity = state.cart[cartProductIndex].stock;
-            // remove the product from the cart
-            state.cart.splice(cartProductIndex, 1);
+            // let product = state.products.find((product) => product.id === productId);
+            // //find the product index in the cart list
+            // let cartProductIndex = state.cart.findIndex((product) => product.id === productId);
+            // //srt back the quantity of the product to intial quantity
+            // product.quantity = state.cart[cartProductIndex].stock;
+            // // remove the product from the cart
+            // state.cart.splice(cartProductIndex, 1);
+            let position = state.cart.findIndex(product => product.id === item.id);
+
+            state.cart.splice(position, 1);
         },
         // addToCart(state, payload) {
         //     return state.cart.push(payload)
@@ -187,10 +242,16 @@ export default {
             state.loading = newLoadingStatus
         },
 
+        sectionProduct(state, data) {
 
+            return state.section_product = data
+        },
 
         allproduct(state, data) {
             return state.product = data
+        },
+        product_details(state, data) {
+            return state.product_details = data
         }
 
 

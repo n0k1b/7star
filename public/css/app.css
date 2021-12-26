@@ -25,6 +25,17 @@
     font-family: 'Open Sans', sans-serif;
 }
 
+a {
+    text-decoration: none;
+    color: #000000
+}
+
+.router-link-exact-active {
+    font-weight: 700;
+    border-bottom: 1px solid #CA2400;
+    color: #000000;
+}
+
 i {
     line-height: 0px;
 }
@@ -128,6 +139,14 @@ body {
 
 .glide__bullet {
     display: none;
+}
+
+.product-details-quantity {
+    margin-top: 4px;
+}
+
+.quantity_selector {
+    display: flex;
 }
 
 .item_card {

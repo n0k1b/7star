@@ -2,33 +2,19 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\product;
 use Illuminate\Http\Request;
+use App\Models\homepage_section_product;
 
-class ProductController extends Controller
+class SectionController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function index()
     {
         //
-        if($request->category_id)
-        {
-            $product = product::where('status',1)->where('category_id',$request->category_id)->with(['type:id,name','dietary:id,name','vendor:id,name'])->paginate(45);
-        }
-        else
-        {
-
-            $product = product::where('status',1)->with(['type:id,name','dietary:id,name','vendor:id,name'])->paginate(42);
-
-        }
-
-
-
-        return response()->json($product,200);
     }
 
     /**
@@ -61,9 +47,9 @@ class ProductController extends Controller
     public function show($id)
     {
         //
-        file_put_contents('test.txt',$id);
-        $product = product::where('id',$id)->with(['type:id,name','dietary:id,name','vendor:id,name'])->first();
-        return response()->json($product,200);
+
+       $section_product = homepage_section_product::where('homepage_section_id',$id)->where('status',1)->with(['product'])->paginate(20);
+        return response()->json($section_product,200);
 
     }
 

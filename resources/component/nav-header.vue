@@ -8,7 +8,7 @@
                     <div class="scroll_container">
                         <div class="mobile_nav-logo">
                             <div class="icon_container">
-                                <router-link to="/"> <img :src="`/frontend//frontend/assets/img/icon.svg`" alt=""></router-link>
+                                <router-link to="/" > <img :src="`/frontend//frontend/assets/img/icon.svg`" alt=""></router-link>
 
                             </div>
                             <span>7 Star</span>
@@ -74,7 +74,7 @@
                                 <div class="item" v-for="cart in getCart" :key="cart.id">
                                     <div class="row-1">
                                         <div class="action">
-                                            <i class="bi bi-x-circle-fill"></i>
+                                        <i class="bi bi-x-circle-fill" @click="deleteFromCart(cart.id)"></i>
                                         </div>
                                         <div class="thumbnail">
                                              <img height="84px" loading="lazy" style="width:84px"  :src="'/'+cart.image">
@@ -118,6 +118,18 @@
 <script>
     export default{
 
+        methods:{
+        deleteFromCart(id)
+            {
+
+                this.$store.commit({
+                type: 'deleteFromCart',
+                id: id,
+
+            })
+            }
+        },
+
         mounted(){
              this.$store.dispatch("allCategoryFromDatabase")
         },
@@ -138,6 +150,8 @@
             //console.log( this.$store.getters.getCategoryFormGetters);
             return this.$store.getters.getCategoryFormGetters
         }
+
+
       },
     };
 </script>

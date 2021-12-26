@@ -22,7 +22,9 @@ const store = new Vuex.Store(
 
 const router = new VueRouter({
     routes: routes,
-    mode: "history"
+    mode: "history",
+    // linkActiveClass: "active", // active class for non-exact links.
+    // linkExactActiveClass: "active" // active class for *exact* links.
 
 })
 

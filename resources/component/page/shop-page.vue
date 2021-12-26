@@ -85,7 +85,7 @@
 
 
                         <div class="item_card"  v-for="product in products.data" :key="product.id">
-
+                               <router-link :to="{name:'ProductDetails', params:{id:product.id} }">
                             <a href="product_details.html">
 
                                 <div class="thumbnail">
@@ -114,8 +114,9 @@
                                 </div>
                                 <p>Available</p>
                             </div>
+                               </router-link>
                             <div class="add_to_cart_button">
-                                <a href="" class="btn btn-primary add_to_cart_button"><i class="bi bi-cart-plus-fill"></i> &nbsp; &nbsp; Add to Cart</a>
+                                <button  @click="addToCart(product)" class="btn btn-primary add_to_cart_button"><i class="bi bi-cart-plus-fill"></i> &nbsp; &nbsp; Add to Cart</button>
                             </div>
                         </div>
 
@@ -158,10 +159,26 @@ export default {
     }
     },
 
+     created(){
+           window.scrollTo(0,0);
+        },
+
      mounted(){
          this.getResults();
+
      },
     methods:{
+
+        addToCart(item)
+            {
+                this.$store.commit({
+                type: 'addToCart',
+                id: item.id,
+                name: item.name,
+                price: item.price,
+                image:item.thumbnail_image
+            })
+            },
 
            async  getResults(page = 1) {
                 await axios.get(`/api/product/`,{
