@@ -3,6 +3,7 @@ import RestaurantRoom from '../component/page/restaurant-room'
 import ShopPage from '../component/page/shop-page'
 import ProductDetails from '../component/page/product-details'
 import SectionExplore from '../component/page/section-explore'
+import cart from '../component/page/cart'
 export const routes = [{
         path: '/',
         name: 'Home',
@@ -19,6 +20,12 @@ export const routes = [{
         path: '/shop-page',
         name: 'ShopPage',
         component: ShopPage
+    },
+
+    {
+        path: '/cart',
+        name: 'cart',
+        component: cart
     },
     {
         path: '/product-details/:id',

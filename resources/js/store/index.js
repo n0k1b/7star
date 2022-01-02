@@ -51,6 +51,9 @@ export default {
         },
         getSectionProduct(state) {
             return state.section_product
+        },
+        getTotal(state) {
+            return state.cart.reduce((t, product) => t + parseInt(product.price * product.quantity), 0)
         }
 
 
@@ -199,6 +202,8 @@ export default {
             // //reduce the quantity in products list by 1
             // product.quantity--;
         },
+
+
         removeFromCart: (state, item) => {
             //find the product in the products list
             //find the product in the cart list
@@ -207,6 +212,35 @@ export default {
             cartProduct.quantity--;
             //Add back the quantity in products list by 1
             product.quantity++;
+        },
+
+        decrementCart: (state, item) => {
+
+            //find the product in the products list
+            //find the product in the cart list
+            // let cartProduct = state.cart.find((product) => product.id === productId);
+            let cartProduct = state.cart.find(product => product.id === item.id);
+            if (cartProduct.quantity > 1)
+                cartProduct.quantity--;
+            else {
+                let position = state.cart.findIndex(product => product.id === item.id);
+
+                state.cart.splice(position, 1);
+            }
+            // //Add back the quantity in products list by 1
+            // product.quantity++;
+        },
+
+        incrementCart: (state, item) => {
+
+            //find the product in the products list
+            //find the product in the cart list
+            // let cartProduct = state.cart.find((product) => product.id === productId);
+            let cartProduct = state.cart.find(product => product.id === item.id);
+
+            cartProduct.quantity++;
+            // //Add back the quantity in products list by 1
+            // product.quantity++;
         },
         deleteFromCart: (state, item) => {
             //find the product in the products list

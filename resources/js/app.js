@@ -10,13 +10,22 @@ import VueLazyImageLoading from 'vue-lazy-image-loading'
 import ScaleLoader from 'vue-spinner/src/PulseLoader.vue'
 import VueGlide from 'vue-glide-js'
 import 'vue-glide-js/dist/vue-glide.css'
+import createPersistedState from "vuex-persistedstate";
 Vue.use(Vuex)
 Vue.use(VueGlide)
 Vue.use(VueLazyImageLoading)
 Vue.use(require('vue-resource'));
 
-const store = new Vuex.Store(
-    storeData
+const store = new Vuex.Store({
+        modules: {
+            storeData,
+        },
+        plugins: [createPersistedState({
+            storage: window.sessionStorage,
+        })]
+    }
+
+
 )
 
 

@@ -30,6 +30,15 @@ a {
     color: #000000
 }
 
+.cart_details .cart_items table tbody tr td .thumbnail {
+    width: 164px;
+    height: 150px;
+}
+
+.cart_details .cart_items table tbody tr td .counter {
+    display: flex;
+}
+
 .router-link-exact-active {
     font-weight: 700;
     border-bottom: 1px solid #CA2400;

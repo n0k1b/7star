@@ -56,7 +56,9 @@
                     <div class="hover_popup has_badge">
                         <!-- add class badge-none to hide the badge  -->
                         <div class="badge_top_right">{{ getCartSize }}</div>
-                        <li><a href="#" class="btn btn-3d"><i class="bi bi-cart-fill text-accent"></i> My Cart</a></li>
+                       <li>
+                           <router-link to="/cart" class="btn btn-3d"><i class="bi bi-cart-fill text-accent"></i> My Cart</router-link></li>
+
                         <div class="popup">
                             <div class="heading-cart">
                                 <div></div>
