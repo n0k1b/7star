@@ -20,9 +20,9 @@ const store = new Vuex.Store({
         modules: {
             storeData,
         },
-        plugins: [createPersistedState({
-            storage: window.sessionStorage,
-        })]
+        // plugins: [createPersistedState({
+        //     storage: window.sessionStorage,
+        // })]
     }
 
 

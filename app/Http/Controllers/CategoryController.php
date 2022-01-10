@@ -54,7 +54,7 @@ class CategoryController extends Controller
         //
 
         $category = category::where('id',$id)->first(['id','name']);
-        $product = $category->product()->with(['type:id,name','dietary:id,name','vendor:id,name'])->paginate(16);
+        $product = $category->product()->with(['type:id,name','category:id,name','dietary:id,name','vendor:id,name'])->paginate(16);
         // $category->product = $product;
         //$category = category::where('id',$id)->with(['product','product.type:id,name','product.dietary:id,name','product.vendor:id,name'])->first(['id','name','image','created_at']);
         return response()->json($product,200);

@@ -10,6 +10,7 @@ export default {
         section: [],
         product_details: [],
         section_product: [],
+        category_name: '',
 
         // count: 0
     },
@@ -52,6 +53,9 @@ export default {
         getSectionProduct(state) {
             return state.section_product
         },
+        getCategoryName(state) {
+            return state.category_name;
+        },
         getTotal(state) {
             return state.cart.reduce((t, product) => t + parseInt(product.price * product.quantity), 0)
         }
@@ -69,12 +73,14 @@ export default {
             .then((response) => {
 
                 context.commit("category_products", response.data) //categories will be run from mutation
+                context.commit("category_name", response.data.data[0].category.name)
+
 
             })
 
             .catch(() => {
 
-                    console.log("Error........")
+                    console.log("Errors........")
 
                 })
                 .finally(() => {
@@ -169,14 +175,18 @@ export default {
     },
     mutations: {
         addToCart: (state, item) => {
+
+            if (!item.quantity)
+                item.quantity = 1;
             let found = state.cart.find(product => product.id == item.id);
             if (found) {
-                found.quantity++;
+                found.quantity += item.quantity;
             } else {
+
                 state.cart.push({
                     id: item.id,
                     price: item.price,
-                    quantity: 1,
+                    quantity: item.quantity,
                     image: item.image,
                     name: item.name
                 })
@@ -260,6 +270,9 @@ export default {
         // },
         category_products(state, data) {
             return state.CategoryProduct = data
+        },
+        category_name(state, data) {
+            return state.category_name = data
         },
 
         categories(state, data) {

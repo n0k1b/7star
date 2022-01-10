@@ -84,7 +84,7 @@
                                         <div class="details">
                                             <p><b>€{{ cart.price }}</b></p>
                                             <div class="quality_control">
-                                                <button class="btn-rounded btn-gray">-</button><span><b>{{ cart.quantity }}</b></span><button class="btn-rounded btn-gray">+</button>
+                                                <button @click="decrementItem(cart.id)"  class="btn-rounded btn-gray">-</button><span><b>{{ cart.quantity }}</b></span><button @click="incrementItem(cart.id)" class="btn-rounded btn-gray">+</button>
                                             </div>
                                         </div>
                                         <div class="unit_price">
@@ -129,7 +129,26 @@
                 id: id,
 
             })
-            }
+            },
+             incrementItem(id)
+            {
+
+                this.$store.commit({
+                type: 'incrementCart',
+                id: id,
+
+            })
+            },
+
+             decrementItem(id)
+            {
+
+                this.$store.commit({
+                type: 'decrementCart',
+                id: id,
+
+            })
+            },
         },
 
         mounted(){

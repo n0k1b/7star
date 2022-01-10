@@ -150,14 +150,6 @@ body {
     display: none;
 }
 
-.product-details-quantity {
-    margin-top: 4px;
-}
-
-.quantity_selector {
-    display: flex;
-}
-
 .item_card {
     margin: 10px;
 }

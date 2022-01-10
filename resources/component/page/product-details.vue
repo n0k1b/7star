@@ -27,18 +27,18 @@
                     <p class="badge badge-light_red">Halal Food</p>
                     <p class="badge badge-aqua">Asian</p>
                 </div>
-                <div class="quantity_selector mt-1">
-                    <span>Quantity: </span><button class="btn-rounded btn-gray">-</button><span class="product-details-quantity" >2</span><button class="btn-rounded btn-gray">+</button>
+                <div class="quantity_selector mt-3">
+                    <span>Quantity: </span><button @click="decrease_counter()" class="btn-rounded btn-gray">-</button><span class="product-details-quantity" >{{ counter }}</span><button @click="increase_counter()" class="btn-rounded btn-gray">+</button>
                 </div>
-                <div class="pricing_container">
+                <div class="pricing_container mt-3">
                     <div class="price">
                         <p class="current_price">${{ product.price }}</p>
-                        <p class="prev_price">$99.50</p>
+                        <!-- <p class="prev_price">$99.50</p> -->
                     </div>
                 </div>
                 <div class="action_buttons">
-                    <a href="" class="btn btn-primary"><i class="bi bi-cart-plus-fill"></i> Add to Cart</a>
-                    <a href="" class="btn btn-gray"><i class="bi bi-cart-plus-fill"></i> Add to Cart</a>
+                    <button @click="addToCart(product)" href="" class="btn btn-primary"><i class="bi bi-cart-plus-fill"></i> Add to Cart</button>
+                    <!-- <a href="" class="btn btn-gray"><i class="bi bi-cart-plus-fill"></i> Add to Cart</a> -->
                 </div>
                 <div class="social">
                     <span>Share: </span>
@@ -77,10 +77,10 @@
                 </div>
             </div>
         </div>
-        <div class="reviews">
+        <div class="reviews mt-4">
             <div class="title mt-section">
                 <h2>Reviews For This Item</h2>
-                <div class="reviews_container h_list-2 mt-subsection">
+                <div class="reviews_container h_list-2 mt-4">
                     <div>
                         <div class="review_card">
                             <div class="author">
@@ -331,6 +331,13 @@
 <script>
     export default {
         props:["id"],
+         data() {
+		return {
+			// Our data object that holds the Laravel paginator data
+            counter:1
+
+		}
+	},
         created(){
            window.scrollTo(0,0);
         },
@@ -339,6 +346,29 @@
             this.$store.dispatch("product_details",{id:this.id})
         }
         ,
+        methods:{
+          increase_counter()
+          {
+              this.counter++;
+          },
+          decrease_counter()
+          { 
+              if(this.counter>1)
+              this.counter--
+          },
+          addToCart(item)
+            {
+              
+                this.$store.commit({
+                type: 'addToCart',
+                id: item.id,
+                name: item.name,
+                price: item.price,
+                image:item.thumbnail_image,
+                quantity:this.counter
+            })
+            },
+        },
          computed: {
 
         product(){ //final output from here

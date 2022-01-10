@@ -2202,6 +2202,18 @@ __webpack_require__.r(__webpack_exports__);
         type: 'deleteFromCart',
         id: id
       });
+    },
+    incrementItem: function incrementItem(id) {
+      this.$store.commit({
+        type: 'incrementCart',
+        id: id
+      });
+    },
+    decrementItem: function decrementItem(id) {
+      this.$store.commit({
+        type: 'decrementCart',
+        id: id
+      });
     }
   },
   mounted: function mounted() {
@@ -3225,6 +3237,12 @@ __webpack_require__.r(__webpack_exports__);
 //
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ["id"],
+  data: function data() {
+    return {
+      // Our data object that holds the Laravel paginator data
+      counter: 1
+    };
+  },
   created: function created() {
     window.scrollTo(0, 0);
   },
@@ -3232,6 +3250,24 @@ __webpack_require__.r(__webpack_exports__);
     this.$store.dispatch("product_details", {
       id: this.id
     });
+  },
+  methods: {
+    increase_counter: function increase_counter() {
+      this.counter++;
+    },
+    decrease_counter: function decrease_counter() {
+      if (this.counter > 1) this.counter--;
+    },
+    addToCart: function addToCart(item) {
+      this.$store.commit({
+        type: 'addToCart',
+        id: item.id,
+        name: item.name,
+        price: item.price,
+        image: item.thumbnail_image,
+        quantity: this.counter
+      });
+    }
   },
   computed: {
     product: function product() {
@@ -3413,6 +3449,9 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   computed: {
+    getCategoryName: function getCategoryName() {
+      return this.$store.getters.getCategoryName;
+    },
     getAllCategory: function getAllCategory() {
       //final output from here
       //console.log( this.$store.getters.getCategoryFormGetters+" hello");
@@ -4464,10 +4503,10 @@ Vue.use(__webpack_require__(/*! vue-resource */ "./node_modules/vue-resource/dis
 var store = new vuex__WEBPACK_IMPORTED_MODULE_8__["default"].Store({
   modules: {
     storeData: _store_index__WEBPACK_IMPORTED_MODULE_2__["default"]
-  },
-  plugins: [(0,vuex_persistedstate__WEBPACK_IMPORTED_MODULE_7__["default"])({
-    storage: window.sessionStorage
-  })]
+  } // plugins: [createPersistedState({
+  //     storage: window.sessionStorage,
+  // })]
+
 });
 var router = new vue_router__WEBPACK_IMPORTED_MODULE_0__["default"]({
   routes: _js_router_js__WEBPACK_IMPORTED_MODULE_1__["default"],
@@ -4609,7 +4648,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     popular_category: [],
     section: [],
     product_details: [],
-    section_product: [] // count: 0
+    section_product: [],
+    category_name: '' // count: 0
 
   },
   getters: {
@@ -4649,6 +4689,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     getSectionProduct: function getSectionProduct(state) {
       return state.section_product;
     },
+    getCategoryName: function getCategoryName(state) {
+      return state.category_name;
+    },
     getTotal: function getTotal(state) {
       return state.cart.reduce(function (t, product) {
         return t + parseInt(product.price * product.quantity);
@@ -4671,8 +4714,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 _context.next = 5;
                 return axios.get("/api/category/" + id + '?page=' + page).then(function (response) {
                   context.commit("category_products", response.data); //categories will be run from mutation
+
+                  //categories will be run from mutation
+                  context.commit("category_name", response.data.data[0].category.name);
                 })["catch"](function () {
-                  console.log("Error........");
+                  console.log("Errors........");
                 })["finally"](function () {
                   context.commit('loadingStatus', false);
                 });
@@ -4783,17 +4829,18 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   },
   mutations: {
     addToCart: function addToCart(state, item) {
+      if (!item.quantity) item.quantity = 1;
       var found = state.cart.find(function (product) {
         return product.id == item.id;
       });
 
       if (found) {
-        found.quantity++;
+        found.quantity += item.quantity;
       } else {
         state.cart.push({
           id: item.id,
           price: item.price,
-          quantity: 1,
+          quantity: item.quantity,
           image: item.image,
           name: item.name
         });
@@ -4871,6 +4918,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     // },
     category_products: function category_products(state, data) {
       return state.CategoryProduct = data;
+    },
+    category_name: function category_name(state, data) {
+      return state.category_name = data;
     },
     categories: function categories(state, data) {
       return state.category = data;
@@ -5068,7 +5118,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, ".product_details {\r\n  display: -ms-grid;\r\n  display: grid;\r\n  -ms-grid-rows: auto;\r\n      grid-template-rows: auto;\r\n  -ms-grid-columns: (minmax(200px, 1fr))[auto-fit];\r\n      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));\r\n  grid-gap: 40px;\r\n}\r\n\r\n.product_details .images__viewer {\r\n  width: 100%;\r\n  height: 338px;\r\n  background-size: cover;\r\n  border-radius: 9px;\r\n}\r\n\r\n.product_details .images__selector {\r\n  display: -webkit-box;\r\n  display: -ms-flexbox;\r\n  display: flex;\r\n  -webkit-box-pack: center;\r\n      -ms-flex-pack: center;\r\n          justify-content: center;\r\n  -webkit-box-align: start;\r\n      -ms-flex-align: start;\r\n          align-items: flex-start;\r\n  width: 100%;\r\n  height: 150px;\r\n  gap: 20px;\r\n  margin-top: 20px;\r\n}\r\n\r\n.product_details .images__selector .img {\r\n  position: relative;\r\n  -webkit-box-flex: 1;\r\n      -ms-flex: 1;\r\n          flex: 1;\r\n  border-radius: 9px;\r\n  background-size: cover;\r\n  -webkit-box-sizing: border-box;\r\n          box-sizing: border-box;\r\n  cursor: pointer;\r\n  overflow: hidden;\r\n}\r\n\r\n.product_details .images__selector .img:after {\r\n  content: \"\";\r\n  position: absolute;\r\n  left: 0px;\r\n  top: 0px;\r\n  bottom: 0px;\r\n  right: 0px;\r\n  background-color: white;\r\n  opacity: 0;\r\n  -webkit-transition: opacity .3s ease-out;\r\n  transition: opacity .3s ease-out;\r\n}\r\n\r\n.product_details .images__selector .img:hover:after {\r\n  opacity: 0.2;\r\n}\r\n\r\n.product_details .images__selector .img__selected {\r\n  pointer-events: none;\r\n}\r\n\r\n.product_details .images__selector .img__selected:after {\r\n  content: \"\";\r\n  position: absolute;\r\n  left: 0px;\r\n  top: 0px;\r\n  bottom: 0px;\r\n  right: 0px;\r\n  background-color: black;\r\n  opacity: 0.5;\r\n  mix-blend-mode: color-burn;\r\n  -webkit-transition: opacity .3s ease-out;\r\n  transition: opacity .3s ease-out;\r\n}\r\n\r\n.product_details .info {\r\n  grid-column: auto / span 2;\r\n}\r\n\r\n.product_details .info .rating {\r\n  display: -webkit-box;\r\n  display: -ms-flexbox;\r\n  display: flex;\r\n}\r\n\r\n.product_details .info .social a {\r\n  text-decoration: none;\r\n  color: black;\r\n  font-size: 1.2rem;\r\n  padding: 0px 5px;\r\n}\r\n\r\n.product_details .info .social a:hover {\r\n  color: var(--gray);\r\n}\r\n\r\n.product_details .info .star_rating_container {\r\n  margin-right: 20px;\r\n}\r\n\r\n.product_details .info h1 {\r\n  font-weight: lighter;\r\n  font-size: 1.7rem;\r\n  margin-top: 35px;\r\n}\r\n\r\n.product_details .info .tags {\r\n  letter-spacing: 0.1em;\r\n}\r\n\r\n.product_details .info .quantity_selector span:nth-child(1) {\r\n  font-weight: bold;\r\n}\r\n\r\n.product_details .info .quantity_selector span, .product_details .info .quantity_selector button {\r\n  margin-right: 5px;\r\n}\r\n\r\n.product_details .info .pricing_container {\r\n  display: -webkit-box;\r\n  display: -ms-flexbox;\r\n  display: flex;\r\n  -webkit-box-pack: justify;\r\n      -ms-flex-pack: justify;\r\n          justify-content: space-between;\r\n  -webkit-box-align: center;\r\n      -ms-flex-align: center;\r\n          align-items: center;\r\n}\r\n\r\n.product_details .info .pricing_container .price {\r\n  display: -webkit-box;\r\n  display: -ms-flexbox;\r\n  display: flex;\r\n  -webkit-box-align: center;\r\n      -ms-flex-align: center;\r\n          align-items: center;\r\n  gap: 7px;\r\n}\r\n\r\n.product_details .info .pricing_container .price .current_price {\r\n  font-size: 1.6rem;\r\n  font-weight: bold;\r\n}\r\n\r\n.product_details .info .pricing_container .price .prev_price {\r\n  text-decoration: line-through;\r\n}\r\n\r\n.product_details .info .pricing_container > p {\r\n  font-style: italic;\r\n  font-size: 0.8rem;\r\n}\r\n\r\n.product_details .info .action_buttons {\r\n  display: block;\r\n  margin: 20px 0px;\r\n}\r\n\r\n.product_details .ingredients_and_author div {\r\n  margin: 20px;\r\n  margin-top: 0px;\r\n}\r\n\r\n.product_details .ingredients_and_author .ingredients {\r\n  background-color: var(--light-gray);\r\n  padding: 20px;\r\n  -webkit-box-sizing: border-box;\r\n          box-sizing: border-box;\r\n}\r\n\r\n.product_details .ingredients_and_author .ingredients p {\r\n  text-align: center;\r\n}\r\n\r\n.product_details .ingredients_and_author .ingredients ol {\r\n  margin-left: 25px;\r\n  margin-top: 20px;\r\n}\r\n\r\n.product_details .ingredients_and_author .author {\r\n  background-color: var(--light-gray);\r\n  padding: 20px;\r\n  -webkit-box-sizing: border-box;\r\n          box-sizing: border-box;\r\n  display: -webkit-box;\r\n  display: -ms-flexbox;\r\n  display: flex;\r\n  -webkit-box-orient: vertical;\r\n  -webkit-box-direction: normal;\r\n      -ms-flex-direction: column;\r\n          flex-direction: column;\r\n  -webkit-box-pack: center;\r\n      -ms-flex-pack: center;\r\n          justify-content: center;\r\n  -webkit-box-align: center;\r\n      -ms-flex-align: center;\r\n          align-items: center;\r\n}\r\n\r\n.product_details .ingredients_and_author .author p:nth-child(3) {\r\n  font-size: 1.5rem;\r\n}\r\n\r\n.product_details .ingredients_and_author .author p :nth-child(4) {\r\n  font-size: 1.2rem;\r\n}\r\n\r\n@media only screen and (max-width: 800px) {\r\n  .product_details {\r\n    -ms-grid-columns: (minmax(400px, 1fr))[auto-fit];\r\n        grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));\r\n  }\r\n  .product_details .info {\r\n    grid-column: auto / span 1 !important;\r\n  }\r\n  .ingredients_and_author {\r\n    display: -webkit-box;\r\n    display: -ms-flexbox;\r\n    display: flex;\r\n  }\r\n  .ingredients_and_author div {\r\n    margin: 5px !important;\r\n    -webkit-box-flex: 1;\r\n        -ms-flex: 1;\r\n            flex: 1;\r\n  }\r\n}", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, ".product_details {\r\n    display: -webkit-box;\r\n    display: -ms-flexbox;\r\n    display: flex;\r\n    -webkit-box-pack: space-evenly;\r\n    -ms-flex-pack: space-evenly;\r\n    justify-content: space-evenly;\r\n    gap: 40px;\r\n}\r\n\r\n.product_details .images {\r\n    width: 90%;\r\n    max-width: 500px;\r\n}\r\n\r\n.product_details .images__viewer {\r\n    width: 100%;\r\n    height: 338px;\r\n    background-size: cover;\r\n    border-radius: 9px;\r\n}\r\n\r\n.product_details .images__selector {\r\n    display: -webkit-box;\r\n    display: -ms-flexbox;\r\n    display: flex;\r\n    -webkit-box-pack: center;\r\n    -ms-flex-pack: center;\r\n    justify-content: center;\r\n    -webkit-box-align: start;\r\n    -ms-flex-align: start;\r\n    align-items: flex-start;\r\n    width: 100%;\r\n    height: 150px;\r\n    gap: 20px;\r\n    margin-top: 20px;\r\n}\r\n\r\n.product_details .images__selector .img {\r\n    position: relative;\r\n    -webkit-box-flex: 1;\r\n    -ms-flex: 1;\r\n    flex: 1;\r\n    border-radius: 9px;\r\n    background-size: cover;\r\n    -webkit-box-sizing: border-box;\r\n    box-sizing: border-box;\r\n    cursor: pointer;\r\n    overflow: hidden;\r\n}\r\n\r\n.product_details .images__selector .img:after {\r\n    content: \"\";\r\n    position: absolute;\r\n    left: 0px;\r\n    top: 0px;\r\n    bottom: 0px;\r\n    right: 0px;\r\n    background-color: white;\r\n    opacity: 0;\r\n    -webkit-transition: opacity .3s ease-out;\r\n    transition: opacity .3s ease-out;\r\n}\r\n\r\n.product_details .images__selector .img:hover:after {\r\n    opacity: 0.2;\r\n}\r\n\r\n.product_details .images__selector .img__selected {\r\n    pointer-events: none;\r\n}\r\n\r\n.product_details .images__selector .img__selected:after {\r\n    content: \"\";\r\n    position: absolute;\r\n    left: 0px;\r\n    top: 0px;\r\n    bottom: 0px;\r\n    right: 0px;\r\n    background-color: black;\r\n    opacity: 0.5;\r\n    mix-blend-mode: color-burn;\r\n    -webkit-transition: opacity .3s ease-out;\r\n    transition: opacity .3s ease-out;\r\n}\r\n\r\n.product_details .info {\r\n    -webkit-box-flex: 1;\r\n    -ms-flex: 1;\r\n    flex: 1;\r\n}\r\n\r\n.product_details .info .rating {\r\n    display: -webkit-box;\r\n    display: -ms-flexbox;\r\n    display: flex;\r\n}\r\n\r\n.product_details .info .social a {\r\n    text-decoration: none;\r\n    color: black;\r\n    font-size: 1.2rem;\r\n    padding: 0px 5px;\r\n}\r\n\r\n.product_details .info .social a:hover {\r\n    color: var(--gray);\r\n}\r\n\r\n.product_details .info .star_rating_container {\r\n    margin-right: 20px;\r\n}\r\n\r\n.product_details .info h1 {\r\n    font-weight: lighter;\r\n    font-size: 1.7rem;\r\n    margin-top: 35px;\r\n}\r\n\r\n.product_details .info .tags {\r\n    letter-spacing: 0.1em;\r\n}\r\n\r\n.product_details .info .quantity_selector {\r\n    display: -webkit-box;\r\n    display: -ms-flexbox;\r\n    display: flex;\r\n    -webkit-box-align: center;\r\n    -ms-flex-align: center;\r\n    align-items: center;\r\n}\r\n\r\n.product_details .info .quantity_selector span:nth-child(1) {\r\n    font-weight: bold;\r\n}\r\n\r\n.product_details .info .quantity_selector span,\r\n.product_details .info .quantity_selector button {\r\n    margin-right: 5px;\r\n}\r\n\r\n.product_details .info .pricing_container {\r\n    display: -webkit-box;\r\n    display: -ms-flexbox;\r\n    display: flex;\r\n    -webkit-box-pack: justify;\r\n    -ms-flex-pack: justify;\r\n    justify-content: space-between;\r\n    -webkit-box-align: center;\r\n    -ms-flex-align: center;\r\n    align-items: center;\r\n}\r\n\r\n.product_details .info .pricing_container .price {\r\n    display: -webkit-box;\r\n    display: -ms-flexbox;\r\n    display: flex;\r\n    -webkit-box-align: center;\r\n    -ms-flex-align: center;\r\n    align-items: center;\r\n    gap: 7px;\r\n}\r\n\r\n.product_details .info .pricing_container .price .current_price {\r\n    font-size: 1.6rem;\r\n    font-weight: bold;\r\n}\r\n\r\n.product_details .info .pricing_container .price .prev_price {\r\n    text-decoration: line-through;\r\n}\r\n\r\n.product_details .info .pricing_container>p {\r\n    font-style: italic;\r\n    font-size: 0.8rem;\r\n}\r\n\r\n.product_details .info .action_buttons {\r\n    display: block;\r\n    margin: 20px 0px;\r\n}\r\n\r\n.product_details .ingredients_and_author {\r\n    width: 90%;\r\n    max-width: 222px;\r\n}\r\n\r\n.product_details .ingredients_and_author div {\r\n    margin: 20px;\r\n    margin-top: 0px;\r\n}\r\n\r\n.product_details .ingredients_and_author .ingredients {\r\n    background-color: var(--light-gray);\r\n    padding: 20px;\r\n    -webkit-box-sizing: border-box;\r\n    box-sizing: border-box;\r\n}\r\n\r\n.product_details .ingredients_and_author .ingredients p {\r\n    text-align: center;\r\n}\r\n\r\n.product_details .ingredients_and_author .ingredients ol {\r\n    margin-left: 25px;\r\n    margin-top: 20px;\r\n}\r\n\r\n.product_details .ingredients_and_author .author {\r\n    background-color: var(--light-gray);\r\n    padding: 20px;\r\n    -webkit-box-sizing: border-box;\r\n    box-sizing: border-box;\r\n    display: -webkit-box;\r\n    display: -ms-flexbox;\r\n    display: flex;\r\n    -webkit-box-orient: vertical;\r\n    -webkit-box-direction: normal;\r\n    -ms-flex-direction: column;\r\n    flex-direction: column;\r\n    -webkit-box-pack: center;\r\n    -ms-flex-pack: center;\r\n    justify-content: center;\r\n    -webkit-box-align: center;\r\n    -ms-flex-align: center;\r\n    align-items: center;\r\n}\r\n\r\n.product_details .ingredients_and_author .author p:nth-child(3) {\r\n    font-size: 1.5rem;\r\n}\r\n\r\n.product_details .ingredients_and_author .author p :nth-child(4) {\r\n    font-size: 1.2rem;\r\n}\r\n\r\n@media only screen and (max-width: 1200px) {\r\n    .product_details {\r\n        -webkit-box-orient: vertical !important;\r\n        -webkit-box-direction: normal !important;\r\n        -ms-flex-direction: column !important;\r\n        flex-direction: column !important;\r\n    }\r\n    .ingredients_and_author {\r\n        display: -webkit-box;\r\n        display: -ms-flexbox;\r\n        display: flex;\r\n    }\r\n    .ingredients_and_author div {\r\n        margin: 5px !important;\r\n        -webkit-box-flex: 1;\r\n        -ms-flex: 1;\r\n        flex: 1;\r\n    }\r\n}", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -41059,7 +41109,14 @@ var render = function () {
                           _c("div", { staticClass: "quality_control" }, [
                             _c(
                               "button",
-                              { staticClass: "btn-rounded btn-gray" },
+                              {
+                                staticClass: "btn-rounded btn-gray",
+                                on: {
+                                  click: function ($event) {
+                                    return _vm.decrementItem(cart.id)
+                                  },
+                                },
+                              },
                               [_vm._v("-")]
                             ),
                             _c("span", [
@@ -41067,7 +41124,14 @@ var render = function () {
                             ]),
                             _c(
                               "button",
-                              { staticClass: "btn-rounded btn-gray" },
+                              {
+                                staticClass: "btn-rounded btn-gray",
+                                on: {
+                                  click: function ($event) {
+                                    return _vm.incrementItem(cart.id)
+                                  },
+                                },
+                              },
                               [_vm._v("+")]
                             ),
                           ]),
@@ -42569,29 +42633,73 @@ var render = function () {
         _vm._v(" "),
         _vm._m(3),
         _vm._v(" "),
-        _vm._m(4),
+        _c("div", { staticClass: "quantity_selector mt-3" }, [
+          _c("span", [_vm._v("Quantity: ")]),
+          _c(
+            "button",
+            {
+              staticClass: "btn-rounded btn-gray",
+              on: {
+                click: function ($event) {
+                  return _vm.decrease_counter()
+                },
+              },
+            },
+            [_vm._v("-")]
+          ),
+          _c("span", { staticClass: "product-details-quantity" }, [
+            _vm._v(_vm._s(_vm.counter)),
+          ]),
+          _c(
+            "button",
+            {
+              staticClass: "btn-rounded btn-gray",
+              on: {
+                click: function ($event) {
+                  return _vm.increase_counter()
+                },
+              },
+            },
+            [_vm._v("+")]
+          ),
+        ]),
         _vm._v(" "),
-        _c("div", { staticClass: "pricing_container" }, [
+        _c("div", { staticClass: "pricing_container mt-3" }, [
           _c("div", { staticClass: "price" }, [
             _c("p", { staticClass: "current_price" }, [
               _vm._v("$" + _vm._s(_vm.product.price)),
             ]),
-            _vm._v(" "),
-            _c("p", { staticClass: "prev_price" }, [_vm._v("$99.50")]),
           ]),
         ]),
         _vm._v(" "),
-        _vm._m(5),
+        _c("div", { staticClass: "action_buttons" }, [
+          _c(
+            "button",
+            {
+              staticClass: "btn btn-primary",
+              attrs: { href: "" },
+              on: {
+                click: function ($event) {
+                  return _vm.addToCart(_vm.product)
+                },
+              },
+            },
+            [
+              _c("i", { staticClass: "bi bi-cart-plus-fill" }),
+              _vm._v(" Add to Cart"),
+            ]
+          ),
+        ]),
         _vm._v(" "),
-        _vm._m(6),
+        _vm._m(4),
       ]),
       _vm._v(" "),
-      _vm._m(7),
+      _vm._m(5),
     ]),
     _vm._v(" "),
-    _vm._m(8),
+    _vm._m(6),
     _vm._v(" "),
-    _vm._m(9),
+    _vm._m(7),
   ])
 }
 var staticRenderFns = [
@@ -42655,33 +42763,6 @@ var staticRenderFns = [
       _c("p", { staticClass: "badge badge-light_red" }, [_vm._v("Halal Food")]),
       _vm._v(" "),
       _c("p", { staticClass: "badge badge-aqua" }, [_vm._v("Asian")]),
-    ])
-  },
-  function () {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "quantity_selector mt-1" }, [
-      _c("span", [_vm._v("Quantity: ")]),
-      _c("button", { staticClass: "btn-rounded btn-gray" }, [_vm._v("-")]),
-      _c("span", { staticClass: "product-details-quantity" }, [_vm._v("2")]),
-      _c("button", { staticClass: "btn-rounded btn-gray" }, [_vm._v("+")]),
-    ])
-  },
-  function () {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "action_buttons" }, [
-      _c("a", { staticClass: "btn btn-primary", attrs: { href: "" } }, [
-        _c("i", { staticClass: "bi bi-cart-plus-fill" }),
-        _vm._v(" Add to Cart"),
-      ]),
-      _vm._v(" "),
-      _c("a", { staticClass: "btn btn-gray", attrs: { href: "" } }, [
-        _c("i", { staticClass: "bi bi-cart-plus-fill" }),
-        _vm._v(" Add to Cart"),
-      ]),
     ])
   },
   function () {
@@ -42753,11 +42834,11 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "reviews" }, [
+    return _c("div", { staticClass: "reviews mt-4" }, [
       _c("div", { staticClass: "title mt-section" }, [
         _c("h2", [_vm._v("Reviews For This Item")]),
         _vm._v(" "),
-        _c("div", { staticClass: "reviews_container h_list-2 mt-subsection" }, [
+        _c("div", { staticClass: "reviews_container h_list-2 mt-4" }, [
           _c("div", [
             _c("div", { staticClass: "review_card" }, [
               _c("div", { staticClass: "author" }, [
@@ -43287,7 +43368,9 @@ var render = function () {
       _vm._v(" "),
       _c("div", { staticClass: "container mt-section" }, [
         _c("div", { staticClass: "halal_foods" }, [
-          _vm._m(0),
+          _c("div", { staticClass: "section_heading" }, [
+            _c("h2", [_vm._v(_vm._s(_vm.getCategoryName))]),
+          ]),
           _vm._v(" "),
           _c(
             "div",
@@ -43413,21 +43496,13 @@ var render = function () {
           ),
         ]),
         _vm._v(" "),
-        _vm._m(1),
+        _vm._m(0),
       ]),
     ],
     1
   )
 }
 var staticRenderFns = [
-  function () {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "section_heading" }, [
-      _c("h2", [_vm._v("Halal Foods")]),
-    ])
-  },
   function () {
     var _vm = this
     var _h = _vm.$createElement
